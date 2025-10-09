@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+typedef struct {
+    int   a;
+    char  b;
+    float c;
+} ARR;
+
+int main(void) {
+    FILE *fp;
+    ARR arr[3] = {
+        {0, 'A', 1.1f},
+        {1, 'B', 1.2f},
+        {2, 'C', 1.3f}
+    };
+    ARR rarr[3];
+
+    
+    fp = fopen("a.bin", "wb");
+    if (!fp) return 1;
+    fwrite(arr, sizeof(ARR), 3, fp);
+    fclose(fp);
+
+    
+    fp = fopen("a.bin", "rb");
+    if (!fp) return 1;
+    fread(rarr, sizeof(ARR), 3, fp);
+    fclose(fp);
+
+    
+    for (int i = 0; i < 3; ++i)
+        printf("%d %c %.1f\n", rarr[i].a, rarr[i].b, rarr[i].c);
+
+    return 0;
+}
